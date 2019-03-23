@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base/sesion :: layout-sesion(~{::title}, ~{::#main-content})}">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${entidad}">titulo</title>
+</head>
+<body>
+	<section class="text-center bg-white p-3 text-center" id="main-content">
+	
+		<h5 th:text="${entidad}">Entidad</h5>
+	
+		<div class="row pb-3">
+			<div class="col text-right">
+				<a th:href="@{/usuario/registrar}"
+					class="btn btn-success">
+					Nuevo
+				</a>
+			</div>
+		</div>
+		
+		<div class="accordion mb-3" id="accordionBusqueda">
+			<div class="card border">
+				<div class="card-header" id="headingBusqueda">
+					<h2 class="mb-0 text-left">
+						<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseBusqueda" aria-expanded="true" aria-controls="collapseBusqueda">
+							Búsqueda
+						</button>
+					</h2>
+				</div>
+				
+				<div id="collapseBusqueda" class="collapse hidde" aria-labelledby="headingBusqueda" data-parent="#accordionBusqueda">
+					<div class="card-body">
+						<form th:action="@{/usuario/buscar}" th:object="${elementoBusqueda}" method="get" class="text-left">
+							<div class="form-row">
+								<div class="form-group col-md-2">
+									<label for="id" class="font-weight-bolder">Id</label>
+									<input type="text" id="id" th:field="*{id}" class="form-control" />
+								</div>
+								
+								<div class="form-group col-md-5">
+									<label for="nombre" class="font-weight-bolder">Nombre</label>
+									<input type="text" id="nombre" th:field="*{nombre}" class="form-control" />
+								</div>
+								
+								<div class="form-group col-md-5">
+									<label for="apellidos" class="font-weight-bolder">Apellidos</label>
+									<input type="text" id="apellidos" th:field="*{apellidos}" class="form-control" />
+								</div>
+							</div>
+							
+							<div class="form-row">
+								<div class="form-group col-md-2">
+									<label for="perfil" class="font-weight-bolder">Perfil</label>
+									<select class="form-control" id="perfil" th:field="*{perfil}">
+										<option th:each="itemPerfil: ${perfiles}"
+											th:text="${itemPerfil.nombre}"
+											th:value="${itemPerfil.id}">Perfil</option>
+									</select>
+								</div>
+								
+								<div class="form-group col-md-2">
+									<label for="habilitado" class="font-weight-bolder">Habilitado</label>
+									<select class="form-control" id="habilitado" th:field="*{habilitado}">
+										<option th:each="itemHabilitado: ${opcionesHabilitado}"
+											th:text="${itemHabilitado.leyenda}"
+											th:value="${itemHabilitado.valor}">habilitado</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">	
+								<div class="col text-right">
+									<input type="reset" class="btn btn-secondary" value="Limpiar" />
+									
+									<button class="btn btn-info">
+										Buscar
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row" th:if="${pagina.content.empty}">
+			<div class="col">
+				<div class="alert alert-warning">
+					No se encontró información
+				</div>
+			</div>
+		</div>
+		
+		<th:block th:if="${!pagina.content.empty}">
+			<table class="table border">
+				<thead class="bg-light text-info">
+					<tr>
+						<th>Id</th>
+						<th>Nombre</th>
+						<th>Apellidos</th>
+						<th>Perfil</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="usuario: ${pagina.content}">
+						<td th:text="${usuario.id}">id</td>
+						<td th:text="${usuario.nombre}" class="text-left">nombre</td>
+						<td th:text="${usuario.apellidos}" class="text-left">apellidos</td>
+						<td th:text="${usuario.perfil.nombre}">perfil</td>
+						<td>
+							<a th:href="@{/usuario/editar/{id}(id=${usuario.id})}">
+								<i class="fa fa-edit"></i>
+							</a>
+						</td>
+						<td>
+							<a th:href="@{/usuario/eliminar/{id}(id=${usuario.id})}"
+								class="text-danger">
+								<i class="fa fa-trash"></i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		
+			<div th:insert="~{base/paginador :: seccion-paginador}">...</div>
+		</th:block>
+	</section>	
+</body>
+</html>

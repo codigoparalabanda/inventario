@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base/sesion :: layout-sesion(~{::title}, ~{::#main-content})}">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${entidad + ' - Editar'}">titulo</title>
+</head>
+<body>
+	<section class="text-center bg-white p-3" id="main-content" style="max-width: 500px; margin: auto!important;">
+		<nav aria-label="breadcrumb">
+		  <ol class="breadcrumb">
+		    <li class="breadcrumb-item"><a th:href="@{/usuario}" th:text="${entidad}">Home</a></li>
+		    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+		  </ol>
+		</nav>
+	
+		<form th:action="@{/usuario/editar}" th:object="${usuario}" method="post">
+			<div class="form-group row">
+				<label class="col-md-3 text-left">Id</label>
+				<div class="col">
+					<span class="form-control text-left" th:text="${usuario.id}">id</span>
+					<input type="hidden" th:field="*{id}" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="nombre" class="col-md-3 text-left">Nombre</label>
+				<div class="col">
+					<input class="form-control" type="text" id="nombre" th:field="*{nombre}" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="apellidos" class="col-md-3 text-left">Apellidos</label>
+				<div class="col">
+					<input class="form-control" type="text" id="apellidos" th:field="*{apellidos}" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="contrasennia" class="col-md-3 text-left">Contraseña</label>
+				<div class="col">
+					<input class="form-control" type="password" id="contrasennia" th:field="*{contrasennia}" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="perfil" class="col-md-3 text-left">Perfil</label>
+				<div class="col">
+					<select class="form-control" id="perfil" th:field="*{perfil}">
+						<option th:each="itemPerfil: ${perfiles}"
+							th:text="${itemPerfil.nombre}"
+							th:value="${itemPerfil.id}"
+							th:if="${itemPerfil.id != null}">Perfil</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="habilitado" class="col-md-3 text-left">Habilitado</label>
+				<div class="col">
+					<select class="form-control" id="habilitado" th:field="*{habilitado}">
+						<option th:each="itemHabilitado: ${opcionesHabilitado}"
+							th:text="${itemHabilitado.leyenda}"
+							th:value="${itemHabilitado.valor}"
+							th:if="${itemHabilitado.valor != null}">habilitado</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<button class="btn btn-info btn-block">
+						Actualizar
+					</button>
+				</div>
+			</div>
+		</form>
+	</section>	
+</body>
+</html>

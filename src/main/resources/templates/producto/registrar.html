@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base/sesion :: layout-sesion(~{::title}, ~{::#main-content})}">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${entidad + ' - Registrar'}">titulo</title>
+</head>
+<body>
+	<section class="text-center bg-white p-3" id="main-content" style="max-width: 500px; margin: auto!important;">
+		<nav aria-label="breadcrumb">
+		  <ol class="breadcrumb">
+		    <li class="breadcrumb-item"><a th:href="@{/producto}" th:text="${entidad}">Home</a></li>
+		    <li class="breadcrumb-item active" aria-current="page">Registrar</li>
+		  </ol>
+		</nav>
+	
+		<form th:action="@{/producto/registrar}" method="post">
+			<div class="form-group row">
+				<label for="nombre" class="col-md-3 text-left">Nombre</label>
+				<div class="col">
+					<input class="form-control" type="text" id="nombre" name="nombre" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="descripcion" class="col-md-3 text-left">Descripción</label>
+				<div class="col">
+					<input class="form-control" type="text" id="descripcion" name="descripcion" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="precioUnitario" class="col-md-3 text-left">Precio Unitario</label>
+				<div class="col">
+					<input class="form-control" type="text" id="precioUnitario" name="precioUnitario" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="stock" class="col-md-3 text-left">Stock</label>
+				<div class="col">
+					<input class="form-control" type="text" id="stock" name="stock" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="categoria" class="col-md-3 text-left">Categoría</label>
+				<div class="col">
+					<select class="form-control" id="categoria" name="categoria">
+						<option th:each="itemCategoria: ${categorias}"
+							th:text="${itemCategoria.nombre}"
+							th:value="${itemCategoria.id}"
+							th:if="${itemCategoria.id != null}">Categoria</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="proveedor" class="col-md-3 text-left">Proveedor</label>
+				<div class="col">
+					<select class="form-control" id="proveedor" name="proveedor">
+						<option th:each="itemProveedor: ${proveedores}"
+							th:text="${itemProveedor.nombre}"
+							th:value="${itemProveedor.id}"
+							th:if="${itemProveedor.id != null}">Proveedor</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="usuario" class="col-md-3 text-left">Usuario</label>
+				<div class="col">
+					<select class="form-control" id="usuario" name="usuario">
+						<option th:each="itemUsuario: ${usuarios}"
+							th:text="${itemUsuario.nombre}"
+							th:value="${itemUsuario.id}"
+							th:if="${itemUsuario.id != null}">Usuario</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="estatus" class="col-md-3 text-left">Estatus</label>
+				<div class="col">
+					<select class="form-control" id="estatus" name="estatus">
+						<option th:each="itemEstatus: ${estatusProducto}"
+							th:text="${itemEstatus.nombre}"
+							th:value="${itemEstatus.id}"
+							th:if="${itemEstatus.id != null}">Estatus</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<button class="btn btn-info btn-block" type="submit">
+						Registrar
+					</button>
+				</div>
+			</div>
+		</form>
+	</section>	
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base/sesion :: layout-sesion(~{::title}, ~{::#main-content})}">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${entidad + ' - Eliminar'}">titulo</title>
+</head>
+<body>
+	<section class="text-center bg-white p-3" id="main-content" style="max-width: 500px; margin: auto!important;">
+		<nav aria-label="breadcrumb">
+		  <ol class="breadcrumb">
+		    <li class="breadcrumb-item"><a th:href="@{/usuario}" th:text="${entidad}">Home</a></li>
+		    <li class="breadcrumb-item active" aria-current="page">Eliminar</li>
+		  </ol>
+		</nav>
+	
+		<form th:action="@{/usuario/eliminar}" th:object="${usuario}" method="post">
+			<div class="row">
+				<div class="col">
+					<div class="alert alert-warning">
+						<p>
+							¿Está seguro de eliminar al usuario <span th:text="${usuario.nombre}" class="font-weight-bolder">nombre</span>?
+							<input type="hidden" th:field="*{id}" />
+						</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col">
+					<button class="btn btn-danger btn-block">
+						Eliminar
+					</button>
+				</div>
+			</div>
+		</form>
+	</section>	
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<section class="row" th:fragment="seccion-paginador">
+		<nav class="col">
+			<ul class="pagination justify-content-end">
+				<!-- Inicia Anterior -->
+				<li class="page-item disabled" th:if="${pagina.number == 0}">
+					<span class="page-link">Anterior</span>
+				</li>
+				<li class="page-item" th:unless="${pagina.number == 0}">
+					<a class="page-link"
+						th:href="@{{url}?numeroPagina={numeroPagina} (url=${urlPaginacion}, numeroPagina=${pagina.number - 1})}">Anterior</a>
+				</li>
+				<!-- Termina Anterior -->
+				
+				<!-- Inicia Páginas -->
+				<th:block th:each="iteradorPagina: ${#numbers.sequence(0, pagina.totalPages - 1)}">
+					<li class="page-item active" th:if="${pagina.number == iteradorPagina}">
+						<span class="page-link" th:text="${iteradorPagina + 1}"></span>
+					</li>
+					<li class="page-item" th:unless="${pagina.number == iteradorPagina}">
+						<a class="page-link" th:text="${iteradorPagina + 1}"
+							th:href="@{{url}?numeroPagina={numeroPagina} (url=${urlPaginacion}, numeroPagina=${iteradorPagina})}"></a>
+					</li>
+				</th:block>
+				<!-- Termina Páginas -->
+				
+				<!-- Inicia Siguiente -->
+				<li class="page-item disabled" th:if="${pagina.totalPages == pagina.number + 1}">
+					<span class="page-link">Siguiente</span>
+				</li>
+				<li class="page-item" th:unless="${pagina.totalPages == pagina.number + 1}">
+					<a class="page-link"
+						th:href="@{{url}?numeroPagina={numeroPagina} (url=${urlPaginacion}, numeroPagina=${pagina.number + 1})}">Siguiente</a>
+				</li>
+				<!-- Termina Siguiente -->
+			</ul>
+		</nav>
+	</section>
+</body>
+</html>

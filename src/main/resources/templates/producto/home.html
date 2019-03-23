@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base/sesion :: layout-sesion(~{::title}, ~{::#main-content})}">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${entidad}">titulo</title>
+</head>
+<body>
+	<section class="text-center bg-white p-3 text-center" id="main-content">
+	
+		<h5 th:text="${entidad}">Entidad</h5>
+	
+		<div class="row pb-3">
+			<div class="col text-right">
+				<a th:href="@{/producto/registrar}"
+					class="btn btn-success">
+					Nuevo
+				</a>
+			</div>
+		</div>
+		
+		<div class="accordion mb-3" id="accordionBusqueda">
+			<div class="card border">
+				<div class="card-header" id="headingBusqueda">
+					<h2 class="mb-0 text-left">
+						<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseBusqueda" aria-expanded="true" aria-controls="collapseBusqueda">
+							Búsqueda
+						</button>
+					</h2>
+				</div>
+				
+				<div id="collapseBusqueda" class="collapse hidde" aria-labelledby="headingBusqueda" data-parent="#accordionBusqueda">
+					<div class="card-body">
+						<form th:action="@{/producto/buscar}" th:object="${elementoBusqueda}" method="get" class="text-left">
+							<div class="form-row">
+								<div class="form-group col-md-2">
+									<label for="id" class="font-weight-bolder">Id</label>
+									<input type="text" id="id" th:field="*{id}" class="form-control" />
+								</div>
+								
+								<div class="form-group col-md-5">
+									<label for="nombre" class="font-weight-bolder">Nombre</label>
+									<input type="text" id="nombre" th:field="*{nombre}" class="form-control" />
+								</div>
+								
+								<div class="form-group col-md-5">
+									<label for="descripcion" class="font-weight-bolder">Descripción</label>
+									<input type="text" id="descripcion" th:field="*{descripcion}" class="form-control" />
+								</div>
+							</div>
+							
+							<div class="form-row">
+								<div class="form-group col-md-2">
+									<label for="precioUnitario" class="font-weight-bolder">Precio Unitario</label>
+									<input type="text" id="precioUnitario" th:field="*{precioUnitario}" class="form-control" />
+								</div>
+								
+								<div class="form-group col-md-3">
+									<label for="fechaRegistro" class="font-weight-bolder">Fecha de Registro</label>
+									<input type="text" id="fechaRegistro" th:field="*{fechaRegistro}" class="form-control" />
+								</div>
+								
+								<div class="form-group col-md-2">
+									<label for="stock" class="font-weight-bolder">Stock</label>
+									<input type="text" id="stock" th:field="*{stock}" class="form-control" />
+								</div>
+							
+								<div class="form-group col">
+									<label for="categoria" class="font-weight-bolder">Categoría</label>
+									<select class="form-control" id="categoria" th:field="*{categoria}">
+										<option th:each="itemCategoria: ${categorias}"
+											th:text="${itemCategoria.nombre}"
+											th:value="${itemCategoria.id}">Categoria</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label for="proveedor" class="font-weight-bolder">Proveedor</label>
+									<select class="form-control" id="proveedor" th:field="*{proveedor}">
+										<option th:each="itemProveedor: ${proveedores}"
+											th:text="${itemProveedor.nombre}"
+											th:value="${itemProveedor.id}">Proveedor</option>
+									</select>
+								</div>
+							
+								<div class="form-group col-md-4">
+									<label for="usuario" class="font-weight-bolder">Usuario</label>
+									<select class="form-control" id="usuario" th:field="*{usuario}">
+										<option th:each="itemUsuario: ${usuarios}"
+											th:text="${itemUsuario.nombre}"
+											th:value="${itemUsuario.id}">Usuario</option>
+									</select>
+								</div>
+								
+								<div class="form-group col-md-4">
+									<label for="estatus" class="font-weight-bolder">Estatus</label>
+									<select class="form-control" id="estatus" th:field="*{estatus}">
+										<option th:each="itemEstatus: ${estatusProducto}"
+											th:text="${itemEstatus.nombre}"
+											th:value="${itemEstatus.id}">Estatus</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">	
+								<div class="col text-right">
+									<input type="reset" class="btn btn-secondary" value="Limpiar" />
+									
+									<button class="btn btn-info">
+										Buscar
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row" th:if="${pagina.content.empty}">
+			<div class="col">
+				<div class="alert alert-warning">
+					No se encontró información
+				</div>
+			</div>
+		</div>
+		
+		<th:block th:if="${!pagina.content.empty}">
+			<table class="table border">
+				<thead class="bg-light text-info">
+					<tr>
+						<th>Id</th>
+						<th>Nombre</th>
+						<th>Descripción</th>
+						<th>Precio Unitario</th>
+						<th>Categoría</th>
+						<th>Estatus</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="producto: ${pagina.content}">
+						<td th:text="${producto.id}">id</td>
+						<td th:text="${producto.nombre}" class="text-left">nombre</td>
+						<td th:text="${producto.descripcion}" class="text-left">descripcion</td>
+						<td th:text="${producto.precioUnitario}">precio unitario</td>
+						<td th:text="${producto.categoria.nombre}">categoria</td>
+						<td th:text="${producto.estatus.nombre}">estatus</td>
+						<td>
+							<a th:href="@{/producto/editar/{id}(id=${producto.id})}">
+								<i class="fa fa-edit"></i>
+							</a>
+						</td>
+						<td>
+							<a th:href="@{/producto/eliminar/{id}(id=${producto.id})}"
+								class="text-danger">
+								<i class="fa fa-trash"></i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		
+			<div th:insert="~{base/paginador :: seccion-paginador}">...</div>
+		</th:block>
+	</section>	
+</body>
+</html>
