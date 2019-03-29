@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,17 +25,24 @@ public class Producto {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Size(min=4, max=20, message="El nombre debe tener entre 4 y 30 caracteres")
 	private String nombre;
+	
+	@Size(min=4, max=250, message="La descripción debe tener entre 4 y 250 caracteres")
 	private String descripcion;
 	
+	@Size(min=1, max=7, message="")
+	@Digits(fraction=2, integer=4, message="El precio unitario sólo acepta valores numéricos de hasta 2 decimales y 4 digitos enteros")
 	@Column(name="precio_unitario")
-	private Double precioUnitario;
+	private String precioUnitario;
 	
 	@Column(name="fecha_registro")
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date fechaRegistro;
 	
-	private Short stock;
+	@Size(min=1, max=3, message="")
+	@Digits(fraction=0, integer=3, message="El stock sólo acepta valores numéricos de hasta 3 enteros")
+	private String stock;
 	
 	@ManyToOne(targetEntity=Categoria.class)
 	@JoinColumn(name="categoria")

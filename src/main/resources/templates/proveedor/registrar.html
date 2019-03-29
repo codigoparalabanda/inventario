@@ -14,22 +14,41 @@
 		  </ol>
 		</nav>
 	
-		<form th:action="@{/proveedor/registrar}" method="post">
+		<form th:action="@{/proveedor/registrar}" th:object="${proveedor}" method="post">
+			<div class="row" th:if="${#fields.hasErrors()}">
+				<div class="col">
+					<div class="alert alert-danger">
+						Por favor corrija los errores y vuelva a enviar el formulario
+					</div>
+				</div>
+			</div>
+			
+			<div class="row" th:if="${#fields.hasErrors('nombre')}">
+				<div class="col text-left">
+					<small th:errors="*{nombre}" class="text-danger">error</small>
+				</div>
+			</div>
 			<div class="form-group row">
 				<label for="nombre" class="col-md-3 text-left">Nombre</label>
 				<div class="col">
-					<input class="form-control" type="text" id="nombre" name="nombre" />
+					<input class="form-control" type="text" id="nombre" th:field="*{nombre}" th:classappend="${#fields.hasErrors('nombre')} ? border-danger : border" />
+				</div>
+			</div>
+			
+			<div class="row" th:if="${#fields.hasErrors('direccion')}">
+				<div class="col text-left">
+					<small th:errors="*{direccion}" class="text-danger">error</small>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="direccion" class="col-md-3 text-left">Dirección</label>
 				<div class="col">
-					<input class="form-control" type="text" id="direccion" name="direccion" />
+					<input class="form-control" type="text" id="direccion" th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')} ? border-danger : border" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="col">
-					<input type="hidden" name="habilitado" value="1" />
+					<input type="hidden" th:field="*{habilitado}" />
 					
 					<button class="btn btn-info btn-block" type="submit">
 						Registrar

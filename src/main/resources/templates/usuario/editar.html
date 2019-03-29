@@ -15,6 +15,14 @@
 		</nav>
 	
 		<form th:action="@{/usuario/editar}" th:object="${usuario}" method="post">
+			<div class="row" th:if="${#fields.hasErrors()}">
+				<div class="col">
+					<div class="alert alert-danger">
+						Por favor corrija los errores y vuelva a enviar el formulario
+					</div>
+				</div>
+			</div>
+			
 			<div class="form-group row">
 				<label class="col-md-3 text-left">Id</label>
 				<div class="col">
@@ -22,24 +30,55 @@
 					<input type="hidden" th:field="*{id}" />
 				</div>
 			</div>
+			
+			<div class="row" th:if="${#fields.hasErrors('nombre')}">
+				<div class="col text-left">
+					<small th:errors="*{nombre}" class="text-danger">error</small>
+				</div>
+			</div>
 			<div class="form-group row">
 				<label for="nombre" class="col-md-3 text-left">Nombre</label>
 				<div class="col">
-					<input class="form-control" type="text" id="nombre" th:field="*{nombre}" />
+					<input class="form-control" type="text" id="nombre" th:field="*{nombre}" th:classappend="${#fields.hasErrors('nombre')} ? border-danger : border" />
+				</div>
+			</div>
+			
+			<div class="row" th:if="${#fields.hasErrors('apellidos')}">
+				<div class="col text-left">
+					<small th:errors="*{apellidos}" class="text-danger">error</small>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="apellidos" class="col-md-3 text-left">Apellidos</label>
 				<div class="col">
-					<input class="form-control" type="text" id="apellidos" th:field="*{apellidos}" />
+					<input class="form-control" type="text" id="apellidos" th:field="*{apellidos}" th:classappend="${#fields.hasErrors('apellidos')} ? border-danger : border" />
+				</div>
+			</div>
+			
+			<div class="row" th:if="${#fields.hasErrors('email')}">
+				<div class="col text-left">
+					<small th:errors="*{email}" class="text-danger">error</small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="email" class="col-md-3 text-left">E-mail</label>
+				<div class="col">
+					<input class="form-control" type="text" id="email" th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? border-danger : border" />
+				</div>
+			</div>
+			
+			<div class="row" th:if="${#fields.hasErrors('contrasennia')}">
+				<div class="col text-left">
+					<small th:errors="*{contrasennia}" class="text-danger">error</small>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="contrasennia" class="col-md-3 text-left">Contraseña</label>
 				<div class="col">
-					<input class="form-control" type="password" id="contrasennia" th:field="*{contrasennia}" />
+					<input class="form-control" type="password" id="contrasennia" th:field="*{contrasennia}" th:classappend="${#fields.hasErrors('contrasennia')} ? border-danger : border" />
 				</div>
 			</div>
+			
 			<div class="form-group row">
 				<label for="perfil" class="col-md-3 text-left">Perfil</label>
 				<div class="col">

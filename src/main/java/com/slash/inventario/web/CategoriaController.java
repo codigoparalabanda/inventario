@@ -1,11 +1,14 @@
 package com.slash.inventario.web;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,12 +83,19 @@ public class CategoriaController {
 	}
 	
 	@GetMapping("/registrar")
-	public String registrar() {
+	public String registrar(Model modelo) {
+		modelo.addAttribute("categoria", new Categoria());
+		
 		return "categoria/registrar";
 	}
 	
 	@PostMapping("/registrar")
-	public String registrar(Categoria categoria) {
+	public String registrar(@Valid Categoria categoria, Errors errores) {
+		
+		if(errores.hasErrors()) {
+			return "categoria/registrar";
+		}
+		
 		categoriaRepository.save(categoria);
 		
 		return "redirect:/categoria";
@@ -102,9 +112,14 @@ public class CategoriaController {
 	
 	@PostMapping("/editar")
 	public String editar(Model modelo
-			, Categoria categoria
+			, @Valid Categoria categoria
+			, Errors errores
 			, @SessionAttribute("numeroPagina") Integer numeroPagina
 			, @SessionAttribute("elementoBusqueda") Categoria categoriaSesion) {
+		
+		if(errores.hasErrors()) {
+			return "categoria/editar";
+		}
 		
 		categoriaRepository.saveAndFlush(categoria);
 		

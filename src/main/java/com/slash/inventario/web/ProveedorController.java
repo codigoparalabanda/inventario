@@ -3,12 +3,15 @@ package com.slash.inventario.web;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,12 +96,22 @@ public class ProveedorController {
 	}
 	
 	@GetMapping("/registrar")
-	public String registrar() {
+	public String registrar(Model modelo) {
+		Proveedor proveedor = new Proveedor();
+		proveedor.setHabilitado(true);
+		
+		modelo.addAttribute("proveedor", proveedor);
+		
 		return "proveedor/registrar";
 	}
 	
 	@PostMapping("/registrar")
-	public String registrar(Proveedor proveedor) {
+	public String registrar(@Valid Proveedor proveedor, Errors errores) {
+		
+		if(errores.hasErrors()) {
+			return "proveedor/registrar";
+		}
+		
 		proveedorRepository.save(proveedor);
 		
 		return "redirect:/proveedor";
@@ -115,9 +128,14 @@ public class ProveedorController {
 	
 	@PostMapping("/editar")
 	public String editar(Model modelo
-			, Proveedor proveedor
+			, @Valid Proveedor proveedor
+			, Errors errores
 			, @SessionAttribute("numeroPagina") Integer numeroPagina
 			, @SessionAttribute("elementoBusqueda") Proveedor proveedorSesion) {
+		
+		if(errores.hasErrors()) {
+			return "proveedor/editar";
+		}
 		
 		proveedorRepository.saveAndFlush(proveedor);
 		

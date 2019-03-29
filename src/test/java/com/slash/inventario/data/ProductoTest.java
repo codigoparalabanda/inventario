@@ -68,8 +68,10 @@ public class ProductoTest {
 		
 		producto.setNombre("Producto 1");
 		producto.setDescripcion("Producto correspondiente a la categoría 1");
-		producto.setPrecioUnitario(Double.valueOf("13.99"));
-		producto.setStock((short) 13);
+		//producto.setPrecioUnitario(Double.valueOf("13.99"));
+		//producto.setStock((short) 13);
+		producto.setPrecioUnitario("13.99");
+		producto.setStock("13");
 		producto.setCategoria(categoria);
 		producto.setProveedor(proveedor);
 		producto.setUsuario(usuario);
@@ -95,8 +97,10 @@ public class ProductoTest {
 		
 		producto.setNombre("Producto 2");
 		producto.setDescripcion("Producto correspondiente a la categoría 2");
-		producto.setPrecioUnitario(Double.valueOf("15.50"));
-		producto.setStock((short) 21);
+		//producto.setPrecioUnitario(Double.valueOf("15.50"));
+		//producto.setStock((short) 21);
+		producto.setPrecioUnitario("15.50");
+		producto.setStock("21");
 		producto.setCategoria(categoria);
 		producto.setProveedor(proveedor);
 		producto.setUsuario(usuario);

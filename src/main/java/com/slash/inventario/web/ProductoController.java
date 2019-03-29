@@ -3,11 +3,14 @@ package com.slash.inventario.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -154,12 +157,19 @@ public class ProductoController {
 	}
 	
 	@GetMapping("/registrar")
-	public String registrar() {
+	public String registrar(Model modelo) {
+		modelo.addAttribute("producto", new Producto());
+		
 		return "producto/registrar";
 	}
 	
 	@PostMapping("/registrar")
-	public String registrar(Producto producto) {
+	public String registrar(@Valid Producto producto, Errors errores) {
+		
+		if(errores.hasErrors()) {
+			return "producto/registrar";
+		}
+		
 		productoRepository.save(producto);
 		
 		return "redirect:/producto";
@@ -176,9 +186,14 @@ public class ProductoController {
 	
 	@PostMapping("/editar")
 	public String editar(Model modelo
-			, Producto producto
+			, @Valid Producto producto
+			, Errors errores
 			, @SessionAttribute("numeroPagina") Integer numeroPagina
 			, @SessionAttribute("elementoBusqueda") Producto productoSesion) {
+		
+		if(errores.hasErrors()) {
+			return "producto/editar";
+		}
 		
 		productoRepository.saveAndFlush(producto);
 		

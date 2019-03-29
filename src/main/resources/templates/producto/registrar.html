@@ -14,29 +14,60 @@
 		  </ol>
 		</nav>
 	
-		<form th:action="@{/producto/registrar}" method="post">
+		<form th:action="@{/producto/registrar}" th:object="${producto}" method="post">
+			<div class="row" th:if="${#fields.hasErrors()}">
+				<div class="col">
+					<div class="alert alert-danger">
+						Por favor corrija los errores y vuelva a enviar el formulario
+					</div>
+				</div>
+			</div>
+		
+			<div class="row" th:if="${#fields.hasErrors('nombre')}">
+				<div class="col text-left">
+					<small th:errors="*{nombre}" class="text-danger">error</small>
+				</div>
+			</div>
 			<div class="form-group row">
 				<label for="nombre" class="col-md-3 text-left">Nombre</label>
 				<div class="col">
-					<input class="form-control" type="text" id="nombre" name="nombre" />
+					<input class="form-control" type="text" id="nombre" th:field="*{nombre}" th:classappend="${#fields.hasErrors('nombre')} ? border-danger : border" />
+				</div>
+			</div>
+			
+			<div class="row" th:if="${#fields.hasErrors('descripcion')}">
+				<div class="col text-left">
+					<small th:errors="*{descripcion}" class="text-danger">error</small>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="descripcion" class="col-md-3 text-left">Descripción</label>
 				<div class="col">
-					<input class="form-control" type="text" id="descripcion" name="descripcion" />
+					<input class="form-control" type="text" id="descripcion" th:field="*{descripcion}" th:classappend="${#fields.hasErrors('descripcion')} ? border-danger : border" />
+				</div>
+			</div>
+			
+			<div class="row" th:if="${#fields.hasErrors('precioUnitario')}">
+				<div class="col text-left">
+					<small th:errors="*{precioUnitario}" class="text-danger">error</small>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="precioUnitario" class="col-md-3 text-left">Precio Unitario</label>
 				<div class="col">
-					<input class="form-control" type="text" id="precioUnitario" name="precioUnitario" />
+					<input class="form-control" type="text" id="precioUnitario" th:field="*{precioUnitario}" th:classappend="${#fields.hasErrors('precioUnitario')} ? border-danger : border" />
+				</div>
+			</div>
+			
+			<div class="row" th:if="${#fields.hasErrors('stock')}">
+				<div class="col text-left">
+					<small th:errors="*{stock}" class="text-danger">error</small>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="stock" class="col-md-3 text-left">Stock</label>
 				<div class="col">
-					<input class="form-control" type="text" id="stock" name="stock" />
+					<input class="form-control" type="text" id="stock" th:field="*{stock}" th:classappend="${#fields.hasErrors('stock')} ? border-danger : border" />
 				</div>
 			</div>
 			<div class="form-group row">

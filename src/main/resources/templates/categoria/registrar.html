@@ -14,11 +14,24 @@
 		  </ol>
 		</nav>
 	
-		<form th:action="@{/categoria/registrar}" method="post">
-			<div class="form-group row">
-				<label for="nombre" class="col-md-3">Nombre</label>
+		<form th:action="@{/categoria/registrar}" th:object="${categoria}" method="post">
+			<div class="row" th:if="${#fields.hasErrors()}">
 				<div class="col">
-					<input class="form-control" type="text" id="nombre" name="nombre" />
+					<div class="alert alert-danger">
+						Por favor corrija los errores y vuelva a enviar el formulario
+					</div>
+				</div>
+			</div>
+		
+			<div class="row" th:if="${#fields.hasErrors('nombre')}">
+				<div class="col text-left">
+					<small th:errors="*{nombre}" class="text-danger">error</small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="nombre" class="col-md-3 text-left">Nombre</label>
+				<div class="col">
+					<input class="form-control" type="text" id="nombre" th:field="*{nombre}" th:classappend="${#fields.hasErrors('nombre')} ? border-danger : border" />
 				</div>
 			</div>
 			<div class="row">
