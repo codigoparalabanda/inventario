@@ -32,7 +32,7 @@ public class Producto {
 	private String descripcion;
 	
 	@Size(min=1, max=7, message="")
-	@Digits(fraction=2, integer=4, message="El precio unitario sólo acepta valores numéricos de hasta 2 decimales y 4 digitos enteros")
+	@Digits(fraction=2, integer=4, message="El precio unitario sólo acepta valores numéricos de hasta 4 digitos enteros y 2 decimales")
 	@Column(name="precio_unitario")
 	private String precioUnitario;
 	
